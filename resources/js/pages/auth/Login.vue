@@ -28,7 +28,7 @@ const submit = () => {
 </script>
 
 <template>
-    <AuthBase title="Inicia sesión en tu cuenta" description="Ingresa tu DNI y contraseña para continuar">
+    <AuthBase title="Alma - Gestor de Inventario -" description="Inicia sesión para continuar">
         <Head title="Iniciar sesión" />
 
         <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">

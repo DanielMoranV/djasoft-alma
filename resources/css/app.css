@@ -89,78 +89,104 @@
 }
 
 :root {
-  --background: hsl(0 0% 100%);
-  --foreground: hsl(0 0% 3.9%);
-  --card: hsl(0 0% 100%);
-  --card-foreground: hsl(0 0% 3.9%);
-  --popover: hsl(0 0% 100%);
-  --popover-foreground: hsl(0 0% 3.9%);
-  --primary: hsl(0 0% 9%);
-  --primary-foreground: hsl(0 0% 98%);
-  --secondary: hsl(0 0% 92.1%);
-  --secondary-foreground: hsl(0 0% 9%);
-  --muted: hsl(0 0% 96.1%);
-  --muted-foreground: hsl(0 0% 45.1%);
-  --accent: hsl(0 0% 96.1%);
-  --accent-foreground: hsl(0 0% 9%);
-  --destructive: hsl(0 84.2% 60.2%);
-  --destructive-foreground: hsl(0 0% 98%);
-  --border: hsl(0 0% 92.8%);
-  --input: hsl(0 0% 89.8%);
-  --ring: hsl(0 0% 3.9%);
-  --chart-1: hsl(12 76% 61%);
-  --chart-2: hsl(173 58% 39%);
-  --chart-3: hsl(197 37% 24%);
-  --chart-4: hsl(43 74% 66%);
-  --chart-5: hsl(27 87% 67%);
+  /* Base: Blanco con matiz azul muy sutil */
+  --background: hsl(210 30% 99%);
+  --foreground: hsl(220 30% 10%);
+
+  /* Componentes */
+  --card: hsl(210 30% 98%);
+  --card-foreground: hsl(220 25% 20%);
+  --popover: hsl(210 30% 97%);
+  --popover-foreground: hsl(220 25% 25%);
+
+  /* Primarios & Secundarios (azules fríos) */
+  --primary: hsl(210 70% 45%);  /* Azul vibrante (mismo tono que el tema oscuro, pero más claro) */
+  --primary-foreground: hsl(210 30% 98%);
+  --secondary: hsl(210 30% 92%);
+  --secondary-foreground: hsl(210 70% 30%);
+
+  /* Neutrales (grises azulados) */
+  --muted: hsl(210 20% 95%);
+  --muted-foreground: hsl(220 15% 50%);
+  --border: hsl(210 20% 88%);
+  --input: hsl(210 20% 90%);
+
+  /* Acentos y feedback */
+  --accent: hsl(210 30% 92%);
+  --accent-foreground: hsl(210 70% 40%);
+  --destructive: hsl(0 75% 50%);  /* Rojo consistente con el tema oscuro */
+  --destructive-foreground: hsl(0 0% 100%);
+
+  /* Efectos */
+  --ring: hsl(210 70% 45%);  /* Mismo azul primario para anillos */
+
+  /* Gráficos (misma paleta que el tema oscuro, pero más claros) */
+  --chart-1: hsl(220 70% 55%);  /* Azul */
+  --chart-2: hsl(180 70% 45%);  /* Turquesa */
+  --chart-3: hsl(30 85% 55%);   /* Naranja */
+  --chart-4: hsl(270 70% 60%);  /* Púrpura */
+  --chart-5: hsl(340 75% 60%);  /* Rosa */
+
+  /* Sidebar (blanco con tono azul frío) */
+  --sidebar-background: hsl(210 40% 95%);
+  --sidebar-foreground: hsl(220 25% 25%);
+  --sidebar-primary: hsl(210 70% 45%);  /* Azul primario */
+  --sidebar-primary-foreground: hsl(210 30% 98%);
+  --sidebar-accent: hsl(210 30% 92%);
+  --sidebar-accent-foreground: hsl(210 70% 35%);
+  --sidebar-border: hsl(210 20% 88%);
+  --sidebar-ring: hsl(210 70% 45%);
   --radius: 0.5rem;
-  --sidebar-background: hsl(0 0% 98%);
-  --sidebar-foreground: hsl(240 5.3% 26.1%);
-  --sidebar-primary: hsl(0 0% 10%);
-  --sidebar-primary-foreground: hsl(0 0% 98%);
-  --sidebar-accent: hsl(0 0% 94%);
-  --sidebar-accent-foreground: hsl(0 0% 30%);
-  --sidebar-border: hsl(0 0% 91%);
-  --sidebar-ring: hsl(217.2 91.2% 59.8%);
-  --sidebar:
-    hsl(0 0% 98%);
 }
 
 .dark {
-  --background: hsl(0 0% 3.9%);
+  /* Base: Negro azulado en lugar de negro puro */
+  --background: hsl(220 30% 5%);
   --foreground: hsl(0 0% 98%);
-  --card: hsl(0 0% 3.9%);
-  --card-foreground: hsl(0 0% 98%);
-  --popover: hsl(0 0% 3.9%);
-  --popover-foreground: 0 0% 98%;
-  --primary: hsl(0 0% 98%);
-  --primary-foreground: hsl(0 0% 9%);
-  --secondary: hsl(0 0% 14.9%);
-  --secondary-foreground: hsl(0 0% 98%);
-  --muted: hsl(0 0% 16.08%);
-  --muted-foreground: hsl(0 0% 63.9%);
-  --accent: hsl(0 0% 14.9%);
-  --accent-foreground: hsl(0 0% 98%);
-  --destructive: hsl(0 84% 60%);
-  --destructive-foreground: hsl(0 0% 98%);
-  --border: hsl(0 0% 14.9%);
-  --input: hsl(0 0% 14.9%);
-  --ring: hsl(0 0% 83.1%);
-  --chart-1: hsl(220 70% 50%);
-  --chart-2: hsl(160 60% 45%);
-  --chart-3: hsl(30 80% 55%);
-  --chart-4: hsl(280 65% 60%);
-  --chart-5: hsl(340 75% 55%);
-  --sidebar-background: hsl(0 0% 7%);
-  --sidebar-foreground: hsl(0 0% 95.9%);
-  --sidebar-primary: hsl(360, 100%, 100%);
-  --sidebar-primary-foreground: hsl(0 0% 100%);
-  --sidebar-accent: hsl(0 0% 15.9%);
-  --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
-  --sidebar-border: hsl(0 0% 15.9%);
-  --sidebar-ring: hsl(217.2 91.2% 59.8%);
-  --sidebar:
-    hsl(240 5.9% 10%);
+
+  /* Componentes */
+  --card: hsl(220 25% 8%);
+  --card-foreground: hsl(0 0% 95%);
+  --popover: hsl(220 30% 7%);
+  --popover-foreground: hsl(0 0% 98%);
+
+  /* Primarios & Secundarios (azules fríos) */
+  --primary: hsl(210 80% 70%);  /* Azul brillante */
+  --primary-foreground: hsl(220 30% 10%);
+  --secondary: hsl(220 25% 15%);
+  --secondary-foreground: hsl(210 50% 90%);
+
+  /* Neutrales (grises azulados) */
+  --muted: hsl(220 20% 20%);
+  --muted-foreground: hsl(220 15% 65%);
+  --border: hsl(220 20% 25%);
+  --input: hsl(220 20% 25%);
+
+  /* Acentos y feedback */
+  --accent: hsl(220 25% 20%);
+  --accent-foreground: hsl(210 70% 75%);
+  --destructive: hsl(0 75% 55%);  /* Rojo para contraste */
+  --destructive-foreground: hsl(0 0% 100%);
+
+  /* Efectos */
+  --ring: hsl(210 80% 60%);  /* Brillo azul al enfocar */
+
+  /* Gráficos (colores vibrantes pero armonizados) */
+  --chart-1: hsl(220 80% 60%);  /* Azul principal */
+  --chart-2: hsl(180 70% 50%);  /* Turquesa */
+  --chart-3: hsl(30 85% 60%);   /* Naranja */
+  --chart-4: hsl(270 70% 65%);  /* Púrpura */
+  --chart-5: hsl(340 75% 65%);  /* Rosa */
+
+  /* Sidebar (azul más intenso) */
+  --sidebar-background: hsl(220 35% 8%);
+  --sidebar-foreground: hsl(210 50% 90%);
+  --sidebar-primary: hsl(210 80% 70%);
+  --sidebar-primary-foreground: hsl(220 30% 10%);
+  --sidebar-accent: hsl(220 30% 15%);
+  --sidebar-accent-foreground: hsl(210 50% 85%);
+  --sidebar-border: hsl(220 25% 20%);
+  --sidebar-ring: hsl(210 80% 60%);
 }
 
 @layer base {
