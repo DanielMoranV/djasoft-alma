@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class UserController extends Controller
@@ -31,7 +33,22 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Log::info($request->all());
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'dni' => 'required|string|max:8',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8',
+        ]);
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'dni' => $request->dni,
+            'password' => Hash::make($request->password),
+            'is_active' => true,
+        ]);
+
+        return redirect()->route('users.index');
     }
 
     /**
@@ -61,8 +78,11 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return Inertia::render('Users/Index', [
+            'users' => User::all(),
+        ]);
     }
 }

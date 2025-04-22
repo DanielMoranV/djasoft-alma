@@ -1,11 +1,14 @@
 <script lang="ts" setup>
+import ConfirmDialog from '@/components/ConfirmDialog.vue';
 import { Button } from '@/components/ui/button';
+import { Toaster } from '@/components/ui/sonner';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { BreadcrumbItem, SharedData, User } from '@/types';
-import { Head, Link, usePage } from '@inertiajs/vue3';
-import { CirclePlus, Pencil, Trash } from 'lucide-vue-next';
-import { computed } from 'vue';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
+import { CheckCircle, CirclePlus, Pencil, Trash, XCircle } from 'lucide-vue-next';
+import { computed, ref } from 'vue';
+import { toast } from 'vue-sonner';
 
 interface UserPageProps extends SharedData {
     users: User[];
@@ -22,11 +25,25 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-const deleteUser = (id: number) => {
-    console.log(id);
+const isDeleting = ref<number | null>(null);
+
+const deleteUser = async (id: number) => {
+    isDeleting.value = id;
+    router.delete(`/users/${id}`, {
+        preserveScroll: true,
+        onSuccess: () => {
+            router.visit('/users', { replace: true });
+            toast.success('Usuario eliminado correctamente');
+        },
+        onError: (erros) => {
+            toast.error('Error al eliminar el usuario');
+            console.log(erros);
+        },
+    });
 };
 </script>
 <template>
+    <Toaster />
     <Head title="Users" />
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
@@ -53,20 +70,34 @@ const deleteUser = (id: number) => {
                             <TableCell>{{ user.name }}</TableCell>
                             <TableCell>{{ user.dni }}</TableCell>
                             <TableCell>{{ user.email }}</TableCell>
-                            <TableCell>{{ user.is_active }}</TableCell>
+                            <TableCell>
+                                <div class="flex items-center gap-1">
+                                    <CheckCircle v-if="user.is_active" class="h-4 w-4 text-green-500" />
+                                    <XCircle v-else class="h-4 w-4 text-red-500" />
+                                </div>
+                            </TableCell>
+
                             <TableCell>{{ user.company ?? 'Sin empresa' }}</TableCell>
                             <TableCell>
                                 <Button as-child size="sm" class="bg-indigo-500 text-white hover:bg-indigo-600 focus:ring-indigo-500">
                                     <Link :href="'/users/${user.id}/edit'"> <Pencil class="h-5 w-5" /> </Link>
                                 </Button>
-                                <Button
-                                    as-child
-                                    size="sm"
-                                    class="ml-2 bg-red-500 text-white hover:bg-red-600 focus:ring-red-500"
-                                    @click="deleteUser(user.id)"
+                                <!-- Botón de Eliminar con confirmación -->
+                                <ConfirmDialog
+                                    :onConfirm="() => deleteUser(user.id)"
+                                    :title="`Eliminar usuario: ${user.name}`"
+                                    description="¿Estás seguro de que quieres eliminar este usuario? Esta acción no se puede deshacer."
                                 >
-                                    <Link :href="'/users/${user.id}/delete'"> <Trash class="h-5 w-5" /> </Link>
-                                </Button>
+                                    <template #trigger>
+                                        <Button
+                                            size="sm"
+                                            class="ml-2 bg-red-500 text-white hover:bg-red-600 focus:ring-red-500"
+                                            :disabled="isDeleting === user.id"
+                                        >
+                                            <Trash class="h-5 w-5" />
+                                        </Button>
+                                    </template>
+                                </ConfirmDialog>
                             </TableCell>
                         </TableRow>
                     </TableBody>

@@ -3,9 +3,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, router } from '@inertiajs/vue3';
-import { AlertCircle, IdCard, Lock, Mail, User } from 'lucide-vue-next';
+import { AlertCircle, IdCard, Loader2, Lock, Mail, User } from 'lucide-vue-next';
 import { ref } from 'vue';
+import { toast } from 'vue-sonner';
 
+const isSubmitting = ref(false);
 const form = ref({
     name: '',
     dni: '',
@@ -38,7 +40,22 @@ const resetForm = () => {
 
 const submitForm = () => {
     if (validateForm()) {
-        router.post('/users', form.value, { onSuccess: resetForm });
+        isSubmitting.value = true;
+
+        router.post('/users', form.value, {
+            onSuccess: () => {
+                toast.success('Usuario creado correctamente 🎉');
+                resetForm();
+                isSubmitting.value = false;
+            },
+            onError: () => {
+                toast.error('Ocurrió un error al crear el usuario');
+                isSubmitting.value = false;
+            },
+            onFinish: () => {
+                isSubmitting.value = false;
+            },
+        });
     }
 };
 
@@ -109,8 +126,11 @@ const breadcrumbs = [
 
                     <!-- Botones -->
                     <div class="flex justify-end gap-3">
-                        <Button variant="outline" type="button" @click="resetForm">Cancelar</Button>
-                        <Button type="submit">Guardar</Button>
+                        <Button variant="outline" type="button" @click="resetForm" :disabled="isSubmitting"> Cancelar </Button>
+                        <Button type="submit" :disabled="isSubmitting" class="relative">
+                            <Loader2 v-if="isSubmitting" class="absolute left-3 h-4 w-4 animate-spin" />
+                            <span :class="{ 'opacity-0': isSubmitting }">Guardar</span>
+                        </Button>
                     </div>
                 </form>
             </div>
