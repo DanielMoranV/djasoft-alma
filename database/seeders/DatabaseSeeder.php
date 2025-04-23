@@ -16,12 +16,44 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
+        // User::factory()->create([
+        //     'name' => 'Daniel Moran Vilchez',
+        //     'dni' => '70315050',
+        //     'email' => 'daniel@djasoft.com',
+        //     'is_active' => true,
+        //     'password' => Hash::make('admin3264'),
+        // ]);
+
         User::factory()->create([
-            'name' => 'Daniel Moran Vilchez',
-            'dni' => '70315050',
-            'email' => 'daniel@djasoft.com',
+            'name' => 'Juan Pérez',
+            'dni' => '70315051',
+            'email' => 'juan1@djasoft.com',
             'is_active' => true,
             'password' => Hash::make('admin3264'),
         ]);
+        // User::factory()->create([
+        //     'name' => 'Juan Pérez',
+        //     'dni' => '70315052',
+        //     'email' => 'juan2@djasoft.com',
+        //     'is_active' => true,
+        //     'password' => Hash::make('admin3264'),
+        //     'company' => 'DjaSoft',
+        // ]);
+        // User::factory()->create([
+        //     'name' => 'Juan Pérez',
+        //     'dni' => '70315053',
+        //     'email' => 'juan3@djasoft.com',
+        //     'is_active' => true,
+        //     'password' => Hash::make('admin3264'),
+        //     'company' => 'DjaSoft',
+        // ]);
+        // User::factory()->create([
+        //     'name' => 'Juan Pérez',
+        //     'dni' => '70315054',
+        //     'email' => 'juan4@djasoft.com',
+        //     'is_active' => true,
+        //     'password' => Hash::make('admin3264'),
+        //     'company' => 'DjaSoft',
+        // ]);
     }
 }
