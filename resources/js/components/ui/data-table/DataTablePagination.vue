@@ -13,11 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { User } from '@/types'
 
-interface DataTablePaginationProps {
-  table: Table<User>
-}
 defineProps<{
   table: Table<T>
 }>()
