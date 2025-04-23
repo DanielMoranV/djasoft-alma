@@ -80,7 +80,7 @@ const deleteUser = async (id: number) => {
                             <TableCell>{{ user.company ?? 'Sin empresa' }}</TableCell>
                             <TableCell>
                                 <Button as-child size="sm" class="bg-indigo-500 text-white hover:bg-indigo-600 focus:ring-indigo-500">
-                                    <Link :href="'/users/${user.id}/edit'"> <Pencil class="h-5 w-5" /> </Link>
+                                    <Link :href="`/users/${user.id}/edit`"> <Pencil class="h-5 w-5" /> </Link>
                                 </Button>
                                 <!-- Botón de Eliminar con confirmación -->
                                 <ConfirmDialog

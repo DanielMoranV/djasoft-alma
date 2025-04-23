@@ -54,7 +54,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $user)
     {
         //
     }
@@ -62,17 +62,31 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $user)
     {
-        //
+        return Inertia::render('Users/Edit', [
+            'user' => $user,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'dni' => 'required|string|max:8',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+        ]);
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'dni' => $request->dni,
+            'is_active' => true,
+        ]);
+
+        return redirect()->route('users.index');
     }
 
     /**

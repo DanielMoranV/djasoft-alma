@@ -2,26 +2,35 @@
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { type NavItem } from '@/types';
+import { NavGroup } from '@/types';
 import { Link } from '@inertiajs/vue3';
 import { Building2, LayoutGrid, Users } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
-const mainNavItems: NavItem[] = [
+const mainNavGroups: NavGroup[] = [
     {
-        title: 'Dashboard',
-        href: '/dashboard',
-        icon: LayoutGrid,
+        label: 'Desarrollador',
+        items: [
+            { title: 'Dashboard', href: '/dashboard', icon: LayoutGrid },
+            { title: 'Usuarios', href: '/users', icon: Users },
+            { title: 'Empresas', href: '/companies', icon: Building2 },
+        ],
     },
     {
-        title: 'Usuarios',
-        href: '/users',
-        icon: Users,
+        label: 'Administrador',
+        items: [
+            { title: 'Empleados', href: '/employees', icon: Users },
+            { title: 'Productos', href: '/products', icon: LayoutGrid },
+            { title: 'Almacenes', href: '/warehouses', icon: Building2 },
+        ],
     },
     {
-        title: 'Empresas   ',
-        href: '/companies',
-        icon: Building2,
+        label: 'Ventas',
+        items: [
+            { title: 'Clientes', href: '/clients', icon: Users },
+            { title: 'Cotizaciones', href: '/quotations', icon: LayoutGrid },
+            { title: 'Facturas', href: '/invoices', icon: Building2 },
+        ],
     },
 ];
 
@@ -54,7 +63,7 @@ const mainNavItems: NavItem[] = [
         </SidebarHeader>
 
         <SidebarContent>
-            <NavMain :items="mainNavItems" />
+            <NavMain :groups="mainNavGroups" />
         </SidebarContent>
 
         <SidebarFooter>

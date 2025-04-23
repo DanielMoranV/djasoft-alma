@@ -18,6 +18,10 @@ export interface NavItem {
     isActive?: boolean;
 }
 
+export type NavGroup = {
+    label: string; // Nombre del módulo: "Desarrollador", "Administrador", etc.
+    items: NavItem[];
+};
 export interface SharedData extends PageProps {
     name: string;
     quote: { message: string; author: string };

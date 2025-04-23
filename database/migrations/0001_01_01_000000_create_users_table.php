@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('dni')->unique();
             $table->boolean('is_active')->default(false);
-            $table->string('company_id')->nullable();
+            $table->uuid('company_id')->nullable()->index();
+            $table->foreign('company_id')->references('id')->on('companies');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

@@ -2,24 +2,31 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import AppLayout from '@/layouts/AppLayout.vue';
-import { Head, router } from '@inertiajs/vue3';
-import { AlertCircle, IdCard, Loader2, Lock, Mail, User } from 'lucide-vue-next';
-import { ref } from 'vue';
+import { User } from '@/types';
+import { Head, router, usePage } from '@inertiajs/vue3';
+import { AlertCircle, IdCard, Loader2, Mail, User as UserIcon } from 'lucide-vue-next';
+import { onMounted, ref } from 'vue';
 import { toast } from 'vue-sonner';
 
 const isSubmitting = ref(false);
+const { props } = usePage();
+const user = props.user as User;
 const form = ref({
     name: '',
     dni: '',
     email: '',
-    password: '',
 });
 
 const errors = ref({
     name: '',
     dni: '',
     email: '',
-    password: '',
+});
+
+onMounted(() => {
+    form.value.name = user.name;
+    form.value.dni = user.dni;
+    form.value.email = user.email;
 });
 
 const validateForm = () => {
@@ -27,24 +34,23 @@ const validateForm = () => {
         name: form.value.name ? '' : 'El nombre es obligatorio.',
         dni: /^\d{8}$/.test(form.value.dni) ? '' : 'El DNI debe tener 8 dígitos.',
         email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.value.email) ? '' : 'El correo no es válido.',
-        password: form.value.password.length >= 6 ? '' : 'La contraseña debe tener al menos 6 caracteres.',
     };
 
     return Object.values(errors.value).every((e) => !e);
 };
 
 const resetForm = () => {
-    form.value = { name: '', dni: '', email: '', password: '' };
-    errors.value = { name: '', dni: '', email: '', password: '' };
+    form.value = { name: '', dni: '', email: '' };
+    errors.value = { name: '', dni: '', email: '' };
 };
 
 const submitForm = () => {
     if (validateForm()) {
         isSubmitting.value = true;
 
-        router.post('/users', form.value, {
+        router.put(`/users/${user.id}`, form.value, {
             onSuccess: () => {
-                toast.success('Usuario creado correctamente 🎉');
+                toast.success('Usuario actualizado correctamente 🎉');
                 resetForm();
                 isSubmitting.value = false;
             },
@@ -61,19 +67,19 @@ const submitForm = () => {
 
 const breadcrumbs = [
     { title: 'Usuarios', href: '/users' },
-    { title: 'Crear', href: '#' },
+    { title: 'Editar', href: '#' },
 ];
 </script>
 
 <template>
-    <Head title="Crear Usuario" />
+    <Head title="Editar Usuario" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col items-center justify-center gap-4 rounded-xl p-4">
             <div
                 class="w-full max-w-md rounded-2xl border border-gray-200 bg-white/20 p-6 shadow-lg backdrop-blur-md transition-colors dark:border-gray-700 dark:bg-white/5"
             >
-                <h1 class="mb-2 text-xl font-bold text-gray-800 dark:text-white">Crear Usuario</h1>
+                <h1 class="mb-2 text-xl font-bold text-gray-800 dark:text-white">Editar Usuario</h1>
 
                 <!-- Formulario -->
 
@@ -82,7 +88,7 @@ const breadcrumbs = [
                     <div>
                         <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Nombre</label>
                         <div class="relative">
-                            <User class="absolute top-2.5 left-3 h-5 w-5 text-gray-400" />
+                            <UserIcon class="absolute top-2.5 left-3 h-5 w-5 text-gray-400" />
                             <Input v-model="form.name" placeholder="Ej. Juan Pérez" class="pl-10" />
                         </div>
                         <p v-if="errors.name" class="mt-1 flex items-center gap-1 text-sm text-red-500">
@@ -111,18 +117,6 @@ const breadcrumbs = [
                         </div>
                         <p v-if="errors.email" class="mt-1 flex items-center gap-1 text-sm text-red-500">
                             <AlertCircle class="h-4 w-4" /> {{ errors.email }}
-                        </p>
-                    </div>
-
-                    <!-- Contraseña -->
-                    <div>
-                        <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Contraseña</label>
-                        <div class="relative">
-                            <Lock class="absolute top-2.5 left-3 h-5 w-5 text-gray-400" />
-                            <Input v-model="form.password" type="password" placeholder="********" class="pl-10" />
-                        </div>
-                        <p v-if="errors.password" class="mt-1 flex items-center gap-1 text-sm text-red-500">
-                            <AlertCircle class="h-4 w-4" /> {{ errors.password }}
                         </p>
                     </div>
 
