@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('dni')->unique();
             $table->boolean('is_active')->default(false);
+            $table->string('position')->nullable();
             $table->uuid('company_id')->nullable()->index();
             $table->foreign('company_id')->references('id')->on('companies');
             $table->string('email')->unique();

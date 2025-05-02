@@ -12,7 +12,7 @@ export const columns: ColumnDef<User>[] = [
   {
     accessorKey: 'dni',
     header: 'DNI',
-  },
+    },
   {
     accessorKey: 'email',
     header: 'Email',
@@ -26,9 +26,13 @@ export const columns: ColumnDef<User>[] = [
         ? h(CircleCheck, { class: 'w-4 h-4 text-green-600' })
         : h(CircleX, { class: 'w-4 h-4 text-red-600' })
     }
+    },
+        {
+      accessorKey:'position',
+      header: 'Posición',
   },
   {
-    accessorKey: 'company',
+    accessorKey: 'company.name',
     header: 'Empresa',
   },
   {

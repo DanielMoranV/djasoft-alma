@@ -1,17 +1,24 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Position } from '@/enums';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, router } from '@inertiajs/vue3';
-import { AlertCircle, IdCard, Loader2, Lock, Mail, User } from 'lucide-vue-next';
+import { AlertCircle, IdCard, Loader2, Lock, Mail, User, UserRoundCheck } from 'lucide-vue-next';
 import { ref } from 'vue';
 import { toast } from 'vue-sonner';
 
 const isSubmitting = ref(false);
+
+const positionOptions = Object.entries(Position).map(([key, value]) => ({
+    key,
+    label: value,
+}));
 const form = ref({
     name: '',
     dni: '',
     email: '',
+    position: Position.Vendedor,
     password: '',
 });
 
@@ -19,6 +26,7 @@ const errors = ref({
     name: '',
     dni: '',
     email: '',
+    position: '',
     password: '',
 });
 
@@ -28,14 +36,15 @@ const validateForm = () => {
         dni: /^\d{8}$/.test(form.value.dni) ? '' : 'El DNI debe tener 8 dígitos.',
         email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.value.email) ? '' : 'El correo no es válido.',
         password: form.value.password.length >= 6 ? '' : 'La contraseña debe tener al menos 6 caracteres.',
+        position: form.value.position ? '' : 'La posición es obligatoria.',
     };
 
     return Object.values(errors.value).every((e) => !e);
 };
 
 const resetForm = () => {
-    form.value = { name: '', dni: '', email: '', password: '' };
-    errors.value = { name: '', dni: '', email: '', password: '' };
+    form.value = { name: '', dni: '', email: '', password: '', position: '' };
+    errors.value = { name: '', dni: '', email: '', password: '', position: '' };
 };
 
 const submitForm = () => {
@@ -112,6 +121,25 @@ const breadcrumbs = [
                         <p v-if="errors.email" class="mt-1 flex items-center gap-1 text-sm text-red-500">
                             <AlertCircle class="h-4 w-4" /> {{ errors.email }}
                         </p>
+                    </div>
+
+                    <!-- Posición -->
+                    <div>
+                        <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Posición</label>
+                        <div class="relative">
+                            <UserRoundCheck class="absolute top-2.5 left-3 h-5 w-5 text-gray-400" />
+                            <select
+                                v-model="form.position"
+                                class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 pl-10 text-sm shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-white"
+                            >
+                                <option v-for="option in positionOptions" :key="option.key" :value="option.label">
+                                    {{ option.label }}
+                                </option>
+                            </select>
+                            <p v-if="errors.position" class="mt-1 flex items-center gap-1 text-sm text-red-500">
+                                <AlertCircle class="h-4 w-4" /> {{ errors.position }}
+                            </p>
+                        </div>
                     </div>
 
                     <!-- Contraseña -->

@@ -7,7 +7,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthBase from '@/layouts/AuthLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
-import { LoaderCircle } from 'lucide-vue-next';
+import { Eye, EyeOff, LoaderCircle } from 'lucide-vue-next';
+import { ref } from 'vue';
 
 defineProps<{
     status?: string;
@@ -25,6 +26,9 @@ const submit = () => {
         onFinish: () => form.reset('password'),
     });
 };
+
+// 👁 Control de visibilidad de la contraseña
+const showPassword = ref(false);
 </script>
 
 <template>
@@ -64,15 +68,28 @@ const submit = () => {
                             ¿Olvidaste tu contraseña?
                         </TextLink>
                     </div>
-                    <Input
-                        id="password"
-                        type="password"
-                        required
-                        :tabindex="2"
-                        autocomplete="current-password"
-                        v-model="form.password"
-                        placeholder="Ingresa tu contraseña"
-                    />
+                    <div class="relative">
+                        <Input
+                            id="password"
+                            :type="showPassword ? 'text' : 'password'"
+                            required
+                            :tabindex="2"
+                            autocomplete="current-password"
+                            v-model="form.password"
+                            placeholder="Ingresa tu contraseña"
+                            class="pr-10"
+                        />
+                        <!-- Icono de ojo -->
+                        <button
+                            type="button"
+                            class="text-muted-foreground absolute top-2.5 right-2"
+                            @click="showPassword = !showPassword"
+                            tabindex="-1"
+                        >
+                            <Eye v-if="!showPassword" class="h-5 w-5" />
+                            <EyeOff v-else class="h-5 w-5" />
+                        </button>
+                    </div>
                     <InputError :message="form.errors.password" />
                 </div>
 

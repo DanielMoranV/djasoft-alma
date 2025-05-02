@@ -16,7 +16,7 @@ class UserController extends Controller
     public function index()
     {
         return Inertia::render('Users/Index', [
-            'users' => User::all(),
+            'users' => User::with('company')->get(),
         ]);
     }
 
@@ -33,18 +33,21 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        Log::info($request->all());
         $request->validate([
             'name' => 'required|string|max:255',
             'dni' => 'required|string|max:8',
             'email' => 'required|string|email|max:255|unique:users',
+            'position' => 'required|string|max:255',
             'password' => 'required|string|min:8',
         ]);
+
         User::create([
             'name' => $request->name,
             'email' => $request->email,
             'dni' => $request->dni,
+            'position' => $request->position,
             'password' => Hash::make($request->password),
+            'company_id' => auth()->user()->company_id,
             'is_active' => true,
         ]);
 
@@ -78,11 +81,13 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'dni' => 'required|string|max:8',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'position' => 'required|string|max:255',
         ]);
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
             'dni' => $request->dni,
+            'position' => $request->position,
             'is_active' => true,
         ]);
 

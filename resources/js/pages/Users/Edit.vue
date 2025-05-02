@@ -4,29 +4,43 @@ import { Input } from '@/components/ui/input';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { User } from '@/types';
 import { Head, router, usePage } from '@inertiajs/vue3';
-import { AlertCircle, IdCard, Loader2, Mail, User as UserIcon } from 'lucide-vue-next';
+import { AlertCircle, IdCard, Loader2, Mail, User as UserIcon, UserRoundCheck } from 'lucide-vue-next';
 import { onMounted, ref } from 'vue';
 import { toast } from 'vue-sonner';
+
+import { Position } from '@/enums';
 
 const isSubmitting = ref(false);
 const { props } = usePage();
 const user = props.user as User;
+const positionOptions = Object.entries(Position).map(([key, value]) => ({
+    key,
+    label: value,
+}));
+
 const form = ref({
     name: '',
     dni: '',
     email: '',
+    position: '',
 });
 
 const errors = ref({
     name: '',
     dni: '',
     email: '',
+    position: '',
 });
 
 onMounted(() => {
     form.value.name = user.name;
     form.value.dni = user.dni;
     form.value.email = user.email;
+    form.value.position = user.position;
+
+    if (!form.value.position) {
+        form.value.position = Position.Vendedor;
+    }
 });
 
 const validateForm = () => {
@@ -34,14 +48,15 @@ const validateForm = () => {
         name: form.value.name ? '' : 'El nombre es obligatorio.',
         dni: /^\d{8}$/.test(form.value.dni) ? '' : 'El DNI debe tener 8 dígitos.',
         email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.value.email) ? '' : 'El correo no es válido.',
+        position: form.value.position ? '' : 'La posición es obligatoria.',
     };
 
     return Object.values(errors.value).every((e) => !e);
 };
 
 const resetForm = () => {
-    form.value = { name: '', dni: '', email: '' };
-    errors.value = { name: '', dni: '', email: '' };
+    form.value = { name: '', dni: '', email: '', position: '' };
+    errors.value = { name: '', dni: '', email: '', position: '' };
 };
 
 const submitForm = () => {
@@ -117,6 +132,25 @@ const breadcrumbs = [
                         </div>
                         <p v-if="errors.email" class="mt-1 flex items-center gap-1 text-sm text-red-500">
                             <AlertCircle class="h-4 w-4" /> {{ errors.email }}
+                        </p>
+                    </div>
+
+                    <!-- Posición -->
+                    <div>
+                        <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Posición</label>
+                        <div class="relative">
+                            <UserRoundCheck class="absolute top-2.5 left-3 h-5 w-5 text-gray-400" />
+                            <select
+                                v-model="form.position"
+                                class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 pl-10 text-sm shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-white"
+                            >
+                                <option v-for="option in positionOptions" :key="option.key" :value="option.label">
+                                    {{ option.label }}
+                                </option>
+                            </select>
+                        </div>
+                        <p v-if="errors.position" class="mt-1 flex items-center gap-1 text-sm text-red-500">
+                            <AlertCircle class="h-4 w-4" /> {{ errors.position }}
                         </p>
                     </div>
 
