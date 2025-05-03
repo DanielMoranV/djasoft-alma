@@ -4,7 +4,8 @@ import type { ColumnDef, ColumnFiltersState } from '@tanstack/vue-table'
 import {
   useVueTable,
   getCoreRowModel,
-  getPaginationRowModel,
+    getPaginationRowModel,
+  getSortedRowModel ,
   getFilteredRowModel,
   SortingState,
   VisibilityState,
@@ -41,6 +42,8 @@ const props = defineProps<{
   caption?: string
 }>()
 
+
+const sorting = ref<SortingState>([])
 const globalFilter = ref('')
 const columnFilters = ref<ColumnFiltersState>([])
 const columnVisibility = ref<VisibilityState>({})
@@ -53,7 +56,9 @@ const table = useVueTable({
     return props.columns
   },
   getCoreRowModel: getCoreRowModel(),
-  getPaginationRowModel: getPaginationRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+  onSortingChange: updaterOrValue => valueUpdater(updaterOrValue, sorting),
   getFilteredRowModel: getFilteredRowModel(),
   onColumnFiltersChange: updaterOrValue => valueUpdater(updaterOrValue, columnFilters),
   onColumnVisibilityChange: updaterOrValue => valueUpdater(updaterOrValue, columnVisibility),
@@ -66,7 +71,10 @@ const table = useVueTable({
     },
     get columnVisibility() {
       return columnVisibility.value
-    },
+      },
+       get sorting() {
+      return sorting.value
+    }
   },
 })
 </script>
@@ -109,7 +117,7 @@ const table = useVueTable({
 
       <TableHeader>
         <TableRow v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
-          <TableHead v-for="header in headerGroup.headers" :key="header.id">
+          <TableHead v-for="header in headerGroup.headers" :key="header.id"  >
             <FlexRender
               v-if="!header.isPlaceholder"
               :render="header.column.columnDef.header"
@@ -139,9 +147,14 @@ const table = useVueTable({
             </TableCell>
           </TableRow>
         </template>
-      </TableBody>
-
-      <DataTablePagination :table="table" />
+    </TableBody>
     </Table>
+
+    <!-- Paginación -->
+  <div class="p-4">
+    <DataTablePagination :table="table" />
   </div>
+
+  </div>
+
 </template>

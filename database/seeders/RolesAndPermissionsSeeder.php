@@ -14,20 +14,20 @@ class RolesAndPermissionsSeeder extends Seeder
      */
     public function run(): void
     {
-        // Crear roles
-        $devRole = Role::create(['name' => 'dev']);
-        $admin = Role::create(['name' => 'admin']);
+        // // Crear roles
+        // $devRole = Role::create(['name' => 'dev']);
+        // $admin = Role::create(['name' => 'user']);
         //Asignar el rol "dev" al usuario con ID 1
         $user = User::find(1);
         if ($user) {
-            $user->assignRole($devRole);
+            $user->assignRole('dev');
         }
 
         // contar cuantos usuarios hay en la tabla users y asignar el rol "admin" todos excepto al usuario con ID 1
         $users = User::all();
         foreach ($users as $user) {
             if ($user->id != 1) {
-                $user->assignRole($admin);
+                $user->assignRole('admin');
             }
         }
     }

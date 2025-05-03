@@ -15,10 +15,24 @@ class UserController extends Controller
      */
     public function index()
     {
+        $user = auth()->user();
+
+        Log::info($user);
+
+        // Verifica si el usuario tiene el rol 'dev'
+        $query = User::with('company');
+
+        //Log::debug($query);
+
+        if (!$user->hasRole('dev')) {
+            $query->where('company_id', $user->company_id);
+        }
+
         return Inertia::render('Users/Index', [
-            'users' => User::with('company')->get(),
+            'users' => $query->get(),
         ]);
     }
+
 
     /**
      * Show the form for creating a new resource.

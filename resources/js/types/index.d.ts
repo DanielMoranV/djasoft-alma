@@ -44,4 +44,16 @@ export interface User {
     updated_at: string;
 }
 
+export interface Company {
+    id: number;
+    name: string;
+    email: string;
+    phone: string;
+    address: string;
+    website: string;
+    logo: string;
+    description: string;
+    users: User[];
+}
+
 export type BreadcrumbItemType = BreadcrumbItem;

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use Inertia\Inertia;
@@ -21,6 +22,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/users', [UserController::class, 'store'])->name('users.store');
     Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+});
+
+// Companies Routes...
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/companies', [CompanyController::class, 'index'])->name('companies.index');
 });
 
 require __DIR__ . '/settings.php';

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class CompanyController extends Controller
 {
@@ -11,7 +13,17 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        //
+        $user = auth()->user();
+
+        $query = Company::with('users');
+
+        if (!$user->hasRole('dev')) {
+            $query->where('id', $user->company_id);
+        }
+
+        return Inertia::render('Companies/Index', [
+            'companies' => $query->get(),
+        ]);
     }
 
     /**
